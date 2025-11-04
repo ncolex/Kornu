@@ -1,0 +1,84 @@
+// Fix: Create type definitions for the application.
+export enum ReviewCategory {
+  Infidelity = 'INFIDELITY',
+  Theft = 'THEFT',
+  Betrayal = 'BETRAYAL',
+  Toxic = 'TOXIC',
+  Positive = 'POSITIVE',
+}
+
+export enum ReputationLevel {
+  Positive = 'POSITIVE',
+  Warning = 'WARNING',
+  Risk = 'RISK',
+  Unknown = 'UNKNOWN',
+}
+
+export interface Review {
+  id: string;
+  category: ReviewCategory;
+  text: string;
+  score: number;
+  date: string; // ISO 8601 format
+  pseudoAuthor: string;
+  confirmations: number;
+  evidenceUrl?: string;
+  personReviewed?: string; // For user profile page
+}
+
+export interface InstaStoriesData {
+  avatarUrl: string;
+  fullName: string;
+  bio: string;
+  publicPostsCount: number;
+  fetchedAt: string; // ISO 8601
+}
+
+export interface PersonProfile {
+  id: string;
+  identifiers: string[]; // e.g., ['John Doe', '@johndoe', '123456789']
+  country: string;
+  totalScore: number;
+  reputation: ReputationLevel;
+  reviews: Review[];
+  instagramProfile?: InstaStoriesData;
+}
+
+export interface UserProfile {
+  id:string;
+  pseudoUsername: string;
+  contributionScore: number;
+  reviews: Review[];
+}
+
+export interface WebCheckResult {
+    id: string;
+    source: string; // e.g., 'Google', 'Facebook', 'LinkedIn'
+    title: string;
+    link: string;
+    snippet: string;
+    status?: 'found' | 'not_found' | 'info';
+    screenshotUrl?: string;
+}
+
+export interface InstagramSearchResult {
+  username: string;
+  profilePicUrl: string;
+  fullName: string;
+}
+
+export interface RegisteredUser {
+  id: string;
+  phone: string;
+  email?: string;
+  passwordHash?: string; // In a real app, never store plain text passwords
+  contributionScore: number;
+}
+
+export interface Notification {
+  id: string;
+  message: string;
+  read: boolean;
+  date: string; // ISO 8601 format
+  link?: string;
+}
