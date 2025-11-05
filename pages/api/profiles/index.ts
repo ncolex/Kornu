@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '../../../supabase/supabaseClient';
+import { getSupabase } from '../../../supabase/supabaseClient';
 import { ReviewCategory, ReputationLevel, PersonProfile } from '../../../types';
 
 // Handler for getting profiles by query
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const supabase = getSupabase();
   if (req.method === 'GET') {
     const { query } = req.query;
 

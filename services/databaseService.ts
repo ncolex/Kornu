@@ -1,9 +1,10 @@
-import { supabase } from '../supabase/supabaseClient';
+import { getSupabase } from '../supabase/supabaseClient';
 import { Review, PersonProfile, UserProfile, ReviewCategory, ReputationLevel, WebCheckResult, InstagramSearchResult, RegisteredUser } from '../types';
 import { fetchInstagramProfileData } from './instaStoriesApiService';
 
 // Helper function to get or create a person profile
 const getOrCreatePersonProfile = async (identifier: string): Promise<PersonProfile> => {
+  const supabase = getSupabase();
   // First, try to get the existing profile
   const { data: existingProfile, error: fetchError } = await supabase
     .from('person_profiles')
@@ -41,6 +42,7 @@ const getOrCreatePersonProfile = async (identifier: string): Promise<PersonProfi
 };
 
 export const getProfileByQuery = async (query: string): Promise<PersonProfile | null> => {
+  const supabase = getSupabase();
   try {
     const { data, error } = await supabase
       .from('person_profiles')
@@ -90,6 +92,7 @@ export const submitReview = async (reviewData: {
   evidenceUrl?: string, 
   pseudoAuthor?: string 
 }): Promise<boolean> => {
+  const supabase = getSupabase();
   try {
     // Get or create the person profile
     const personProfile = await getOrCreatePersonProfile(reviewData.personIdentifier);
@@ -144,6 +147,7 @@ export const submitReview = async (reviewData: {
 };
 
 export const getRankings = async (): Promise<{ topNegative: PersonProfile[], topPositive: PersonProfile[] }> => {
+  const supabase = getSupabase();
   try {
     // Get top negative profiles (lowest scores)
     const { data: topNegative, error: negativeError } = await supabase
@@ -193,6 +197,7 @@ export const getRankings = async (): Promise<{ topNegative: PersonProfile[], top
 };
 
 export const registerUser = async (userData: { phone: string; email?: string; password?: string }): Promise<{ success: boolean; message: string; user?: RegisteredUser }> => {
+  const supabase = getSupabase();
   try {
     const { data: existingUser, error: fetchError } = await supabase
       .from('users')
@@ -250,6 +255,7 @@ export const registerUser = async (userData: { phone: string; email?: string; pa
 };
 
 export const loginUser = async (credentials: { phone: string; password?: string }): Promise<{ success: boolean; message: string; user?: RegisteredUser }> => {
+  const supabase = getSupabase();
   try {
     const { data: user, error } = await supabase
       .from('users')
@@ -296,6 +302,7 @@ export const loginUser = async (credentials: { phone: string; password?: string 
 };
 
 export const getUserProfile = async (phone?: string): Promise<UserProfile> => {
+  const supabase = getSupabase();
   try {
     if (!phone) {
       // Return a default anonymous user profile

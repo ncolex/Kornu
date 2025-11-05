@@ -1,4 +1,4 @@
-import { supabase } from './supabase/supabaseClient';
+import { getSupabase } from './supabase/supabaseClient';
 
 // Test data for negative profiles (high risk)
 const negativeProfiles = [
@@ -471,6 +471,7 @@ const positiveReviews = [
 ];
 
 async function seedDatabase() {
+  const supabase = getSupabase();
   console.log('Starting to seed the database with test data...');
 
   try {
