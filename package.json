@@ -2,20 +2,29 @@
   "name": "kornu",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "preview": "vite preview",
+    "start": "next start",
+    "migrate": "ts-node migrations/001-initial-schema.ts",
+    "seed": "ts-node seed-db.ts"
   },
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.3",
-    "@google/genai": "^1.22.0"
+    "@google/genai": "^1.22.0",
+    "@supabase/supabase-js": "^2.79.0",
+    "@types/pg": "^8.10.9",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vercel/speed-insights": "^1.2.0",
+    "next": "^16.0.1",
+    "pg": "^8.11.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.3"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
+    "@types/node": "^22.19.0",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"

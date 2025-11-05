@@ -143,3 +143,13 @@ The application is set up for deployment to Vercel. When deploying:
 ## Contributing
 
 Feel free to submit issues or pull requests. For major changes, please open an issue first to discuss what you would like to change.
+
+## Seeding the Database
+
+To populate the database with test data, you can run the seed script:
+
+```bash
+npm run seed
+```
+
+Note: Make sure you have your Supabase environment variables properly set in your `.env.local` file before running this command.
