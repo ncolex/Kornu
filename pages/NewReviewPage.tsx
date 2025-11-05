@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { submitReview } from '../services/airtableService';
+import { submitReview } from '../services/databaseService';
 import { CATEGORIES } from '../constants';
 import { ReviewCategory } from '../types';
 import { useNotifications } from '../hooks/useNotifications';

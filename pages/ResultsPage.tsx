@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getProfileByQuery, performWebChecks } from '../services/airtableService';
+import { getProfileByQuery, performWebChecks } from '../services/databaseService';
 import { PersonProfile, WebCheckResult } from '../types';
 import ReputationMeter from '../components/ReputationMeter';
 import ReviewCard from '../components/ReviewCard';

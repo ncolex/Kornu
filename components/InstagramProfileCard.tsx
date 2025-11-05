@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PersonProfile, InstagramSearchResult } from '../types';
-import { searchInstagramProfiles } from '../services/airtableService';
+import { searchInstagramProfiles } from '../services/databaseService';
 
 interface InstagramProfileCardProps {
   profile: PersonProfile | null;
@@ -31,7 +31,7 @@ const DetailedProfileView: React.FC<{ profileData: NonNullable<PersonProfile['in
             </div>
              <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600 text-center">
                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Esta funcionalidad depende de un servicio externo (Insta-Stories.ru). CornuScore no garantiza su disponibilidad ni exactitud.
+                    Esta funcionalidad depende de un servicio externo (Insta-Stories.ru). Cornu no garantiza su disponibilidad ni exactitud.
                 </p>
              </div>
         </div>
@@ -107,14 +107,20 @@ const SearchProfilesView: React.FC<{ query: string }> = ({ query }) => {
         return (
             <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-lg border border-white/30 dark:bg-gray-800/80 dark:border-gray-700 text-center">
                 <i className="fa-brands fa-instagram text-3xl text-gray-400 dark:text-gray-500 mb-2"></i>
-                <p className="font-semibold text-gray-700 dark:text-gray-300">No se encontraron perfiles públicos en Instagram para "{query}".</p>
+                <p className="font-semibold text-gray-700 dark:text-gray-300">No se encontraron perfiles públicos en Instagram para "${query}".</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">El perfil puede ser privado, no existir, o tener un nombre de usuario diferente.</p>
             </div>
         );
     }
     
-    const handleProfileSelect = (username: string) => {
-        setSelectedProfile(username === selectedProfile ? null : username);
+    const handleProfileSelect = (username: string, autoRedirect = false) => {
+        const newSelected = selectedProfile === username ? null : username;
+        setSelectedProfile(newSelected);
+        
+        // If autoRedirect is true and a profile was selected, immediately redirect
+        if (autoRedirect && newSelected) {
+            window.location.replace(`#/review?identifier=${encodeURIComponent(newSelected)}`);
+        }
     };
 
     const handleCreateReview = () => {
@@ -131,17 +137,16 @@ const SearchProfilesView: React.FC<{ query: string }> = ({ query }) => {
                 {foundProfiles.map(p => (
                     <div 
                         key={p.username}
-                        className={`flex items-center gap-4 p-3 rounded-lg border transition-all cursor-pointer ${
-                            selectedProfile === p.username 
-                                ? 'bg-pink-100/50 border-pink-300 dark:bg-pink-900/30 dark:border-pink-600' 
-                                : 'hover:bg-pink-100/50 dark:hover:bg-gray-700/50 border-transparent hover:border-pink-200 dark:hover:border-gray-600'
+                        className={`flex items-center gap-4 p-3 rounded-lg border transition-all cursor-pointer ${selectedProfile === p.username 
+                            ? 'bg-pink-100/50 border-pink-300 dark:bg-pink-900/30 dark:border-pink-600' 
+                            : 'hover:bg-pink-100/50 dark:hover:bg-gray-700/50 border-transparent hover:border-pink-200 dark:hover:border-gray-600'
                         }`}
-                        onClick={() => handleProfileSelect(p.username)}
+                        onClick={() => handleProfileSelect(p.username, true)} // autoRedirect on click
                     >
                         <input
                             type="checkbox"
                             checked={selectedProfile === p.username}
-                            onChange={() => handleProfileSelect(p.username)}
+                            onChange={() => handleProfileSelect(p.username, true)} // autoRedirect on checkbox change
                             className="w-5 h-5 text-pink-600 rounded focus:ring-pink-400"
                         />
                         <img src={p.profilePicUrl} alt={`Foto de perfil de ${p.username}`} className="w-20 h-20 rounded-full object-cover bg-gray-300" />
@@ -154,6 +159,7 @@ const SearchProfilesView: React.FC<{ query: string }> = ({ query }) => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                            onClick={(e) => e.stopPropagation()} // Prevent triggering the parent click
                         >
                             <i className="fa-solid fa-arrow-up-right-from-square text-xl"></i>
                         </a>
@@ -164,10 +170,9 @@ const SearchProfilesView: React.FC<{ query: string }> = ({ query }) => {
                 <button
                     onClick={handleCreateReview}
                     disabled={!selectedProfile}
-                    className={`px-6 py-3 font-bold rounded-full shadow-lg transform transition-all ${
-                        selectedProfile 
-                            ? 'bg-pink-500 text-white hover:bg-pink-600 hover:scale-105' 
-                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    className={`px-6 py-3 font-bold rounded-full shadow-lg transform transition-all ${selectedProfile 
+                        ? 'bg-pink-500 text-white hover:bg-pink-600 hover:scale-105' 
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                 >
                     Crear Reseña para el perfil seleccionado

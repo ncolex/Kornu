@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import HeartIcon from '../components/icons/HeartIcon';
-import { registerUser } from '../services/airtableService';
+import { registerUser } from '../services/databaseService';
 
 const RegisterPage: React.FC = () => {
   const [phone, setPhone] = useState('');

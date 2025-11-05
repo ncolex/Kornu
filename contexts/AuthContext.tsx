@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode, useEffect } from 'react';
 
 export interface User {
   phone: string;
@@ -13,21 +13,35 @@ export interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    try {
-      // Prioritize localStorage for "Remember Me"
-      let item = window.localStorage.getItem('user');
-      if (item) return JSON.parse(item);
-      
-      item = window.sessionStorage.getItem('user');
-      return item ? JSON.parse(item) : null;
-    } catch (error) {
-      console.error('Failed to parse user from storage', error);
-      return null;
+  const [user, setUser] = useState<User | null>(null);
+  const [initialized, setInitialized] = useState(false);
+
+  // Initialize user from localStorage on client side
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      try {
+        // Prioritize localStorage for "Remember Me"
+        let item = window.localStorage.getItem('user');
+        if (item) {
+          setUser(JSON.parse(item));
+        } else {
+          item = window.sessionStorage.getItem('user');
+          if (item) {
+            setUser(JSON.parse(item));
+          }
+        }
+      } catch (error) {
+        console.error('Failed to parse user from storage', error);
+      } finally {
+        setInitialized(true);
+      }
     }
-  });
+  }, []);
 
   const login = (phone: string, remember: boolean = false) => {
+    if (typeof window === 'undefined') return; // Guard for server-side
+    
     const newUser = { phone };
     setUser(newUser);
     if (remember) {
@@ -40,10 +54,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = () => {
+    if (typeof window === 'undefined') return; // Guard for server-side
+    
     setUser(null);
     window.sessionStorage.removeItem('user');
     window.localStorage.removeItem('user');
   };
+
+  // Don't render children until initialization is complete (to prevent hydration errors)
+  if (!initialized) {
+    return <div>Loading...</div>; // Or a proper loading component
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

@@ -31,12 +31,12 @@ const initialReviews: Review[] = [
 ];
 
 const initialProfiles: PersonProfile[] = [
-  { id: 'prof1', identifiers: ['ana perez', 'anita.perez95', '1122334455'], country: 'Argentina', totalScore: -8, reputation: ReputationLevel.Risk, reviews: initialReviews.filter(r => r.personReviewed === 'Ana Perez') },
-  { id: 'prof2', identifiers: ['carlos gomez', 'charlyg', '5544332211'], country: 'México', totalScore: 4, reputation: ReputationLevel.Positive, reviews: initialReviews.filter(r => r.personReviewed === 'Carlos Gomez') },
-  { id: 'prof3', identifiers: ['ricardo diaz', 'richid'], country: 'Colombia', totalScore: -7, reputation: ReputationLevel.Risk, reviews: initialReviews.filter(r => r.personReviewed === 'Ricardo Diaz') },
-  { id: 'prof4', identifiers: ['sofia luna', 'sofilu'], country: 'España', totalScore: 2, reputation: ReputationLevel.Positive, reviews: initialReviews.filter(r => r.personReviewed === 'Sofia Luna') },
-  { id: 'prof5', identifiers: ['pedro navaja'], country: 'Perú', totalScore: -2, reputation: ReputationLevel.Warning, reviews: [{ id: 'rev9', category: ReviewCategory.Toxic, text: "Manipulador, te hace sentir culpable por todo.", score: -2, date: "2023-06-18T12:00:00Z", pseudoAuthor: "user333", confirmations: 4, personReviewed: 'Pedro Navaja' }] },
-  { id: 'prof6', identifiers: ['Cintia Fernandez', 'sintiafer'], country: 'Chile', totalScore: 1, reputation: ReputationLevel.Positive, reviews: initialReviews.filter(r => r.personReviewed === 'Cintia Fernandez') },
+  { id: 'prof1', identifier: 'anita.perez95', identifiers: ['ana perez', 'anita.perez95', '1122334455'], country: 'Argentina', totalScore: -8, reviewCount: 3, reputation: ReputationLevel.Risk, reviews: initialReviews.filter(r => r.personReviewed === 'Ana Perez') },
+  { id: 'prof2', identifier: 'charlyg', identifiers: ['carlos gomez', 'charlyg', '5544332211'], country: 'México', totalScore: 4, reviewCount: 2, reputation: ReputationLevel.Positive, reviews: initialReviews.filter(r => r.personReviewed === 'Carlos Gomez') },
+  { id: 'prof3', identifier: 'richid', identifiers: ['ricardo diaz', 'richid'], country: 'Colombia', totalScore: -7, reviewCount: 2, reputation: ReputationLevel.Risk, reviews: initialReviews.filter(r => r.personReviewed === 'Ricardo Diaz') },
+  { id: 'prof4', identifier: 'sofilu', identifiers: ['sofia luna', 'sofilu'], country: 'España', totalScore: 2, reviewCount: 1, reputation: ReputationLevel.Positive, reviews: initialReviews.filter(r => r.personReviewed === 'Sofia Luna') },
+  { id: 'prof5', identifier: 'pedro navaja', identifiers: ['pedro navaja'], country: 'Perú', totalScore: -2, reviewCount: 1, reputation: ReputationLevel.Warning, reviews: [{ id: 'rev9', category: ReviewCategory.Toxic, text: "Manipulador, te hace sentir culpable por todo.", score: -2, date: "2023-06-18T12:00:00Z", pseudoAuthor: "user333", confirmations: 4, personReviewed: 'Pedro Navaja' }] },
+  { id: 'prof6', identifier: 'sintiafer', identifiers: ['Cintia Fernandez', 'sintiafer'], country: 'Chile', totalScore: 1, reviewCount: 2, reputation: ReputationLevel.Positive, reviews: initialReviews.filter(r => r.personReviewed === 'Cintia Fernandez') },
 ];
 
 const initialUsers: RegisteredUser[] = [
@@ -267,10 +267,12 @@ export const submitReview = async (reviewData: { personIdentifier: string, count
     } else {
         const newProfile: PersonProfile = {
             id: `prof${Date.now()}`,
+            identifier: reviewData.personIdentifier,
             identifiers: [reviewData.personIdentifier],
             country: reviewData.country,
             reviews: [newReview],
             totalScore: reviewData.score,
+            reviewCount: 1,
             reputation: calculateReputation(reviewData.score),
         };
         mockProfiles.push(newProfile);

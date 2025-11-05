@@ -1,0 +1,204 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { getProfileByQuery, performWebChecks } from '../../services/databaseService';
+import { PersonProfile, WebCheckResult } from '../../types';
+import ReputationMeter from '../../components/ReputationMeter';
+import ReviewCard from '../../components/ReviewCard';
+import WebCheckTile from '../../components/WebCheckTile';
+import InstagramProfileCard from '../../components/InstagramProfileCard';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+
+const ResultsPage: React.FC = () => {
+  const router = useRouter();
+  const { query } = router.query;
+  const [profile, setProfile] = useState<PersonProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [webResults, setWebResults] = useState<WebCheckResult[]>([]);
+  const [isWebLoading, setIsWebLoading] = useState(true);
+  const [webError, setWebError] = useState<string | null>(null);
+
+  const summaryStats = useMemo(() => {
+    if (!profile) {
+      return null;
+    }
+
+    const positiveReviews = profile.reviews.filter(r => r.score > 0).length;
+    const negativeReviews = profile.reviews.filter(r => r.score < 0).length;
+
+    return {
+      totalScore: profile.totalScore,
+      reviewCount: profile.reviews.length,
+      positiveReviews,
+      negativeReviews,
+    };
+  }, [profile]);
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      if (!query) return;
+
+      setIsLoading(true);
+      setIsWebLoading(true);
+      setWebError(null);
+
+      try {
+        // Fetch profile data from API
+        const profileResult = await getProfileByQuery(query as string);
+        setProfile(profileResult);
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+        setProfile(null);
+      } finally {
+        setIsLoading(false);
+      }
+
+      try {
+        // Fetch web presence data
+        const webResult = await performWebChecks(query as string);
+        setWebResults(webResult);
+      } catch (error) {
+        console.error('Web presence check failed:', error);
+        setWebError('La verificación de presencia en la web falló. Por favor, inténtalo de nuevo más tarde.');
+        setWebResults([]);
+      } finally {
+        setIsWebLoading(false);
+      }
+    };
+
+    if (query) {
+      fetchAllData();
+    }
+  }, [query]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="text-center py-20 flex-grow">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-pink-500 mx-auto"></div>
+          <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">Verificando reputación de "{query}"...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+  
+  const WebPresenceContent = () => (
+     <div>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 text-center">
+          Presencia en la Web
+        </h2>
+        {isWebLoading ? (
+          <div className="bg-white/80 dark:bg-gray-800/80 p-6 rounded-xl shadow-md text-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-pink-400 mx-auto"></div>
+            <p className="mt-3 text-sm font-semibold text-gray-600 dark:text-gray-400">Buscando perfiles públicos...</p>
+          </div>
+        ) : webError ? (
+            <div className="text-center text-red-600 bg-red-100 dark:bg-red-900/50 dark:text-red-400 p-4 rounded-xl shadow-md border border-red-200 dark:border-red-800">
+                <i className="fa-solid fa-circle-exclamation mr-2"></i>
+                {webError}
+            </div>
+        ) : (
+          <div className="space-y-4">
+            {webResults.length > 0 ? (
+              webResults.map(result => <WebCheckTile key={result.id} result={result} />)
+            ) : (
+              <div className="text-center text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 p-6 rounded-xl shadow-md">
+                 <i className="fa-solid fa-ghost text-4xl text-gray-400 mb-3"></i>
+                 <p>No se encontraron perfiles públicos relevantes en la búsqueda automática.</p>
+              </div>
+            )}
+            <p className="text-xs text-center text-gray-500 dark:text-gray-400 pt-2">Resultados de búsqueda simulados para fines de demostración.</p>
+          </div>
+        )}
+      </div>
+  );
+
+  if (!profile) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <div className="max-w-3xl mx-auto space-y-8 flex-grow px-4 py-8">
+          <div className="text-center bg-white/80 dark:bg-gray-800/80 p-8 rounded-2xl shadow-lg">
+            <i className="fa-solid fa-user-slash text-6xl text-pink-300 mb-4"></i>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">No se encontró un perfil para "{query}"</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">No hemos encontrado un perfil en nuestra base de datos, ¡pero tú puedes ser el primero en crear una reseña! Mientras tanto, hemos buscado su presencia en la web y perfiles de Instagram.</p>
+            <a 
+              href="/review"
+              className="px-8 py-3 text-lg font-bold text-white bg-pink-500 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all"
+            >
+              Crear Reseña
+            </a>
+          </div>
+          
+          <InstagramProfileCard profile={null} query={query as string} />
+          
+          <WebPresenceContent />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <div className="max-w-3xl mx-auto space-y-8 flex-grow px-4 py-8">
+        <InstagramProfileCard profile={profile} query={query as string} />
+        <ReputationMeter profile={profile} />
+
+        <WebPresenceContent />
+        
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 text-center">
+            Reseñas de la Comunidad ({profile.reviews.length})
+          </h2>
+
+          {summaryStats && profile.reviews.length > 0 && (
+              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-white/30 dark:bg-gray-800/80 dark:border-gray-700 mb-6">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 text-center">Resumen de Reputación</h3>
+                <div className="grid grid-cols-3 divide-x divide-gray-200 dark:divide-gray-600 text-center">
+                  <div className="px-2">
+                    <p className="text-3xl font-bold text-pink-500">{summaryStats.totalScore}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">Puntaje Total</p>
+                  </div>
+                  <div className="px-2">
+                    <p className="text-3xl font-bold text-gray-700 dark:text-gray-300">{summaryStats.reviewCount}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">Reseñas</p>
+                  </div>
+                  <div className="px-2">
+                    <p className="text-3xl font-bold">
+                      <span className="text-red-500">{summaryStats.negativeReviews}</span> / <span className="text-green-500">{summaryStats.positiveReviews}</span>
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">Neg. / Pos.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          {profile.reviews.length > 0 ? (
+            <div className="space-y-4 relative">
+              {profile.reviews.map(review => <ReviewCard key={review.id} review={review} />)}
+            </div>
+          ) : (
+              <div className="text-center bg-white/80 dark:bg-gray-800/80 p-8 rounded-2xl shadow-lg">
+                  <i className="fa-solid fa-file-circle-question text-6xl text-pink-300 mb-4"></i>
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Sin Reseñas Aún</h2>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6">Sé el primero en dejar una reseña sobre "{profile.identifiers[0]}". Tu aporte ayuda a la comunidad.</p>
+                  <a 
+                      href="/review"
+                      className="px-8 py-3 text-lg font-bold text-white bg-pink-500 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all"
+                  >
+                      Crear Reseña
+                  </a>
+              </div>
+          )}
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default ResultsPage;

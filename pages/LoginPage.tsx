@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import HeartIcon from '../components/icons/HeartIcon';
-import { loginUser } from '../services/airtableService';
+import { loginUser } from '../services/databaseService';
 
 const LoginPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'login' | 'forgot'>('login');
