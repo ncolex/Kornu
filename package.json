@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preview": "vite preview",
     "start": "next start",
+    "preview": "next start",
     "migrate": "ts-node migrations/001-initial-schema.ts",
     "seed": "ts-node seed-db.ts"
   },
