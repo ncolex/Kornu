@@ -401,7 +401,7 @@ const positiveReviews = [
     reviewer_phone: '+5491144455566',
     evidence_url: null,
     pseudo_author: 'TeamMember',
-    created as: new Date().toISOString()
+    created_at: new Date().toISOString()
   },
   {
     person_identifier: 'felipe.mendoza.honest',
