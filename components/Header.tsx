@@ -20,7 +20,7 @@ const Header: React.FC = () => {
   return (
     <header className="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 dark:bg-gray-800/80 dark:border-b dark:border-gray-700">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-pink-500">
+        <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-pink-500">
           <HeartIcon className="w-8 h-8"/>
           <span>CornuScore</span>
         </Link>

@@ -11,6 +11,7 @@ import InstagramProfileCard from '../components/InstagramProfileCard';
 const ResultsPage: React.FC = () => {
   const router = useRouter();
   const { query } = router.query;
+  const queryStr = Array.isArray(query) ? query[0] : query;
   const [profile, setProfile] = useState<PersonProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [webResults, setWebResults] = useState<WebCheckResult[]>([]);
@@ -43,8 +44,8 @@ const ResultsPage: React.FC = () => {
 
       // Using Promise.allSettled to handle promises in parallel, even if one fails
       const [profileResult, webResult] = await Promise.allSettled([
-        getProfileByQuery(query),
-        performWebChecks(query),
+        getProfileByQuery(queryStr),
+        performWebChecks(queryStr),
       ]);
 
       // Handle Profile Result
@@ -131,7 +132,7 @@ const ResultsPage: React.FC = () => {
           </Link>
         </div>
         
-        <InstagramProfileCard profile={null} query={query || ''} />
+        <InstagramProfileCard profile={null} query={queryStr || ''} />
         
         <WebPresenceContent />
       </div>
@@ -140,7 +141,7 @@ const ResultsPage: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      <InstagramProfileCard profile={profile} query={query || ''} />
+      <InstagramProfileCard profile={profile} query={queryStr || ''} />
       <ReputationMeter profile={profile} />
 
       <WebPresenceContent />

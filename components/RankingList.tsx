@@ -13,7 +13,7 @@ interface RankingListProps {
 const RankingCard: React.FC<{ profile: PersonProfile; rank: number }> = ({ profile, rank }) => {
   const reputationDetails = REPUTATION_LEVELS[profile.reputation];
   return (
-    <Link href={`/results/${encodeURIComponent(profile.identifiers[0])}`}} className="block">
+    <Link href={`/results/${encodeURIComponent(profile.identifiers[0])}`} className="block">
       <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-md border border-white/30 flex items-center gap-4 hover:shadow-lg hover:border-pink-300 transition-all transform hover:scale-105 dark:bg-gray-800/80 dark:border-gray-700 dark:hover:border-pink-600">
         <span className={`text-2xl font-bold w-10 text-center ${reputationDetails.color}`}>#{rank}</span>
         <div className="flex-grow">
