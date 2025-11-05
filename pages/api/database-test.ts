@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSupabase } from '../../supabase/supabaseClient';
+import { supabase } from '../../supabase/supabaseClient';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const supabase = getSupabase();
   try {
     // Test the Supabase connection by making a simple request
     const { data, error } = await supabase.from('profiles').select('id').limit(1);
