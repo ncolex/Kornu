@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Review } from '../types';
 import { CATEGORIES } from '../constants';
 import { useNotifications } from '../hooks/useNotifications';
@@ -60,7 +60,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onEdit, onDelete }) => 
               <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex flex-col items-center justify-center text-white text-center p-4">
                 <i className="fa-solid fa-eye-slash text-3xl mb-2"></i>
                 <p className="font-bold mb-2">Solo usuarios registrados pueden verlo</p>
-                <Link to="/login" className="px-4 py-2 text-sm font-bold bg-pink-500 rounded-full hover:bg-pink-600 transition-colors">
+                <Link href="/login" className="px-4 py-2 text-sm font-bold bg-pink-500 rounded-full hover:bg-pink-600 transition-colors">
                   Iniciar Sesión
                 </Link>
               </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { getProfileByQuery, performWebChecks } from '../services/databaseService';
 import { PersonProfile, WebCheckResult } from '../types';
 import ReputationMeter from '../components/ReputationMeter';
@@ -8,7 +9,8 @@ import WebCheckTile from '../components/WebCheckTile';
 import InstagramProfileCard from '../components/InstagramProfileCard';
 
 const ResultsPage: React.FC = () => {
-  const { query } = useParams<{ query: string }>();
+  const router = useRouter();
+  const { query } = router.query;
   const [profile, setProfile] = useState<PersonProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [webResults, setWebResults] = useState<WebCheckResult[]>([]);
@@ -122,8 +124,7 @@ const ResultsPage: React.FC = () => {
           <i className="fa-solid fa-user-slash text-6xl text-pink-300 mb-4"></i>
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">No se encontró un perfil para "{query}"</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">No hemos encontrado un perfil en nuestra base de datos, ¡pero tú puedes ser el primero en crear una reseña! Mientras tanto, hemos buscado su presencia en la web y perfiles de Instagram.</p>
-          <Link 
-            to="/review" 
+          <Link href="/review" 
             className="px-8 py-3 text-lg font-bold text-white bg-pink-500 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all"
           >
             Crear Reseña
@@ -180,8 +181,7 @@ const ResultsPage: React.FC = () => {
                 <i className="fa-solid fa-file-circle-question text-6xl text-pink-300 mb-4"></i>
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Sin Reseñas Aún</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">Sé el primero en dejar una reseña sobre "{profile.identifiers[0]}". Tu aporte ayuda a la comunidad.</p>
-                <Link 
-                    to="/review" 
+                <Link href="/review" 
                     className="px-8 py-3 text-lg font-bold text-white bg-pink-500 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all"
                 >
                     Crear Reseña

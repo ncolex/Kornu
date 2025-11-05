@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useAuth } from '../hooks/useAuth';
 import HeartIcon from '../components/icons/HeartIcon';
 import { loginUser } from '../services/databaseService';
@@ -15,9 +16,9 @@ const LoginPage: React.FC = () => {
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
   const { login } = useAuth();
-  const location = useLocation();
+  const router = useRouter();
 
-  const from = location.state?.from?.pathname || '/';
+  const from = (router.query.from as string) || '/';
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,8 +33,7 @@ const LoginPage: React.FC = () => {
         const result = await loginUser({ phone: phoneNumber.trim(), password: password.trim() });
         
         if (result.success && result.user) {
-            login(result.user.phone, rememberMe);
-            window.location.replace(`#${from}`);
+            router.push(from);
         } else {
             setError(result.message);
             setIsFormLoading(false);
@@ -69,7 +69,7 @@ const LoginPage: React.FC = () => {
         // Here, we just simulate a login for demonstration purposes.
         const mockPhoneNumber = `${provider}_user_${Date.now().toString().slice(-6)}`;
         login(mockPhoneNumber, rememberMe);
-        window.location.replace(`#${from}`);
+        router.push(from);
 
     } catch (err) {
         setError(`Error al iniciar sesión con ${provider}. Por favor, intenta de nuevo.`);
@@ -165,7 +165,7 @@ const LoginPage: React.FC = () => {
             <div className="mt-4 text-sm text-center">
               <p className="text-gray-600 dark:text-gray-400">
                 ¿No tienes cuenta?{' '}
-                <Link to="/register" className={`font-semibold text-pink-500 hover:text-pink-600 hover:underline ${isLoading ? 'pointer-events-none text-gray-400' : ''}`}>
+                <Link href="/register" className={`font-semibold text-pink-500 hover:text-pink-600 hover:underline ${isLoading ? 'pointer-events-none text-gray-400' : ''}`}>
                   Regístrate
                 </Link>
               </p>

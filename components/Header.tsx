@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import HeartIcon from './icons/HeartIcon';
 import { useAuth } from '../hooks/useAuth';
 import ThemeToggle from './ThemeToggle';
@@ -7,15 +8,13 @@ import NotificationBell from './NotificationBell';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
+  const router = useRouter();
 
-  const activeLinkStyle = {
-    color: '#ec4899',
-    textDecoration: 'underline',
-  };
+
 
   const handleLogout = () => {
     logout();
-    window.location.replace('#/');
+    router.push('/');
   };
 
   return (
@@ -27,26 +26,26 @@ const Header: React.FC = () => {
         </Link>
         <ul className="flex items-center gap-2 md:gap-4 font-semibold text-gray-700 dark:text-gray-300">
           <li>
-            <NavLink to="/" style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}>
+            <Link href="/" className={`hover:text-pink-500 ${router.pathname === '/' ? 'text-pink-500 underline' : ''}`}>
               Verify
-            </NavLink>
+            </Link>
           </li>
           <li>
-            <NavLink to="/review" style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}>
+            <Link href="/review" className={`hover:text-pink-500 ${router.pathname === '/review' ? 'text-pink-500 underline' : ''}`}>
               Report
-            </NavLink>
+            </Link>
           </li>
           <li>
-            <NavLink to="/ranking" style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}>
+            <Link href="/ranking" className={`hover:text-pink-500 ${router.pathname === '/ranking' ? 'text-pink-500 underline' : ''}`}>
               Ranking
-            </NavLink>
+            </Link>
           </li>
           {user ? (
             <>
               <li>
-                <NavLink to="/profile" style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}>
+                <Link href="/profile" className={`hover:text-pink-500 ${router.pathname === '/profile' ? 'text-pink-500 underline' : ''}`}>
                   Profile
-                </NavLink>
+                </Link>
               </li>
               <li>
                 <button onClick={handleLogout} className="font-semibold text-gray-700 hover:text-pink-500 dark:text-gray-300 dark:hover:text-pink-500">
@@ -56,9 +55,9 @@ const Header: React.FC = () => {
             </>
           ) : (
             <li>
-              <NavLink to="/login" style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}>
+              <Link href="/login" className={`hover:text-pink-500 ${router.pathname === '/login' ? 'text-pink-500 underline' : ''}`}>
                 Login
-              </NavLink>
+              </Link>
             </li>
           )}
            <li>
