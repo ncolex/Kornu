@@ -1,66 +1,145 @@
 # Kornu ❤️ / 💔
 
-Kornu es una aplicación web progresiva diseñada para crear un índice de reputación social. Permite a los usuarios verificar y dejar reseñas sobre personas (parejas, amigos, etc.) utilizando identificadores como nombres de usuario de Instagram, nombres completos o números de teléfono. El objetivo es proporcionar una herramienta de precaución y transparencia en las relaciones interpersonales.
+Kornu is a Progressive Web Application designed to create a social reputation index. It allows users to verify and leave reviews about people (partners, friends, etc.) using identifiers such as Instagram usernames, full names, or phone numbers. The goal is to provide a tool for caution and transparency in interpersonal relationships.
 
 ---
 
-## Funcionalidades Principales
+## Main Features
 
-### 1. Verificación de Reputación (Página de Inicio)
-La función central de Kornu.
-- **Búsqueda Universal:** Permite buscar a una persona usando su nombre de usuario de Instagram, nombre y apellido, o número de teléfono.
-- **Resultados Detallados:** Al realizar una búsqueda, la aplicación presenta un perfil completo que incluye:
-    - **Semáforo de Reputación:** Un sistema visual e intuitivo que clasifica la reputación en tres niveles:
-        - 🟢 **Confiable:** Puntuación positiva, indica buenas experiencias.
-        - 🟡 **Alerta:** Puntuación ligeramente negativa, sugiere precaución.
-        - 🔴 **Riesgo Alto:** Puntuación muy negativa, indica problemas serios reportados.
-    - **Resumen y Estadísticas:** Muestra la puntuación total, el número de reseñas, y un desglose de reportes positivos vs. negativos.
-    - **Reseñas de la Comunidad:** Lista de todas las reseñas enviadas por otros usuarios.
+### 1. Reputation Verification (Home Page)
+The core feature of Kornu.
+- **Universal Search:** Allows searching for a person using their Instagram username, full name, or phone number.
+- **Detailed Results:** When performing a search, the application presents a complete profile that includes:
+    - **Reputation Traffic Light:** A visual and intuitive system that classifies reputation in three levels:
+        - 🟢 **Trustworthy:** Positive score, indicates good experiences.
+        - 🟡 **Warning:** Slightly negative score, suggests caution.
+        - 🔴 **High Risk:** Very negative score, indicates serious problems reported.
+    - **Summary and Statistics:** Shows the total score, number of reviews, and a breakdown of positive vs. negative reports.
+    - **Community Reviews:** List of all reviews submitted by other users.
 
-### 2. Creación de Reseñas (Reportar)
-Los usuarios pueden contribuir anónimamente a la base de datos.
-- **Formulario Completo:** Para crear una reseña, se debe especificar el identificador de la persona, su país, una categoría, y un texto descriptivo.
-- **Categorías Predefinidas:** Las reseñas se clasifican en categorías claras con una puntuación predefinida:
-    - `💔 Infidelidad`
-    - `💰 Robo`
-    - `🔪 Traición`
-    - `☢️ Toxicidad`
-    - `💖 Positivo`
-- **Aporte de Evidencia:** Se pueden adjuntar pruebas visuales (imágenes) para respaldar la reseña. Estas solo son visibles para usuarios registrados.
-- **Verificación de Contacto:** Aunque el autor de la reseña es anónimo en la plataforma, se requiere información de contacto (email, Instagram, teléfono) para fines de verificación interna y para evitar abusos. **Esta información no es pública**.
+### 2. Creating Reviews (Report)
+Users can contribute anonymously to the database.
+- **Complete Form:** To create a review, specify the person's identifier, country, category, and descriptive text.
+- **Predefined Categories:** Reviews are classified into clear categories with a predefined score:
+    - `💔 Infidelity`
+    - `💰 Theft`
+    - `🔪 Betrayal`
+    - `☢️ Toxicity`
+    - `💖 Positive`
+- **Evidence Contribution:** Visual evidence can be attached to support the review. These are only visible to registered users.
+- **Contact Verification:** Although the review author is anonymous on the platform, contact information (email, Instagram, phone) is required for internal verification purposes and to prevent abuse. **This information is not public**.
 
-### 3. Rankings de la Comunidad
-Una sección que muestra los perfiles con las puntuaciones más altas y más bajas.
-- **Top 5 Negativos:** Lista de los perfiles con la peor reputación en la plataforma.
-- **Top 5 Positivos:** Lista de los perfiles mejor valorados por la comunidad.
+### 3. Community Rankings
+A section showing the highest and lowest scoring profiles.
+- **Top 5 Negatives:** List of the profiles with the worst reputation on the platform.
+- **Top 5 Positives:** List of the profiles most positively rated by the community.
 
-### 4. Perfiles de Usuario y Autenticación
-- **Registro e Inicio de Sesión:** Los usuarios pueden crear una cuenta usando su número de teléfono y una contraseña, o a través de proveedores sociales como Google, Facebook e Instagram.
-- **Funcionalidad "Recordarme":** Al iniciar sesión, los usuarios pueden optar por mantener su sesión activa de forma persistente.
-- **Página de Perfil:** Los usuarios registrados tienen un perfil personal donde pueden ver su "Puntuación de Contribuidor" y gestionar las reseñas que han publicado.
+### 4. User Profiles and Authentication
+- **Registration and Login:** Users can create an account using their phone number and a password, or via social providers like Google, Facebook, and Instagram.
+- **"Remember me" Functionality:** When logging in, users can opt to keep their session active persistently.
+- **Profile Page:** Registered users have a personal profile where they can see their "Contributor Score" and manage reviews they have published.
 
 ---
 
-## Funcionalidades Específicas y Avanzadas
+## Advanced Features
 
-### 1. Investigación Web Automática (IA)
-Al buscar un perfil, Kornu realiza una búsqueda automática en la web para encontrar presencia en otras plataformas.
-- **Búsqueda en Redes Sociales:** Verifica perfiles en Google, Facebook, TikTok, etc.
-- **Búsqueda en Sitios de Citas:** Simula búsquedas en plataformas como Badoo y Tinder para detectar posibles perfiles.
-- **Búsqueda Especializada:** Incluye verificaciones en sitios como Skokka, OnlyFans y Cafecito.app.
+### 1. Automated Web Research (AI)
+When searching for a profile, Kornu performs an automatic web search to find presence on other platforms.
+- **Social Media Search:** Verifies profiles on Google, Facebook, TikTok, etc.
+- **Dating Site Search:** Simulates searches on platforms like Badoo and Tinder to detect possible profiles.
+- **Specialized Search:** Includes verifications on sites like Skokka, OnlyFans, and Cafecito.app.
 
-### 2. Búsqueda de Perfiles de Instagram
-Si no se encuentra un perfil en la base de datos de Kornu, la aplicación busca activamente en Instagram para encontrar posibles coincidencias, mostrando sus fotos de perfil y nombres de usuario para que el usuario pueda verificar.
+### 2. Instagram Profile Search
+If no profile is found in the Kornu database, the application actively searches Instagram to find possible matches, showing their profile pictures and usernames so the user can verify.
 
-### 3. Integración con IA (Google Gemini)
-Kornu utiliza la IA de Google para potenciar varias de sus características.
-- **Generador de Contenido (Página de IA):** Una herramienta que permite buscar noticias o eventos públicos en la web (ej: "rupturas de famosos 2024"). La IA analiza los resultados y genera borradores de reseñas, extrayendo el nombre, país, un resumen del hecho y una categoría sugerida. Estas sugerencias pueden ser añadidas a la plataforma con un solo clic.
-- **Generación de Avatares:** Las fotos de perfil de los usuarios registrados son generadas por IA (modelo Imagen) para crear un avatar único y abstracto basado en sus iniciales, protegiendo su privacidad.
+### 3. AI Integration (Google Gemini)
+Kornu uses Google AI to power several of its features.
+- **Content Generator (AI Page):** A tool that allows searching for public news or events on the web (e.g., "celebrity breakups 2024"). The AI analyzes the results and generates draft reviews, extracting the name, country, a summary of the event, and a suggested category. These suggestions can be added to the platform with one click.
+- **Avatar Generation:** Profile pictures for registered users are generated by AI (Imagen model) to create a unique and abstract avatar based on their initials, protecting their privacy.
 
-### 4. Sistema de Notificaciones
-Un centro de notificaciones en tiempo real para mantener a los usuarios informados.
-- **Alertas:** Notifica sobre nuevas reseñas de perfiles relevantes o actualizaciones importantes.
-- **Gestión:** Permite marcar notificaciones como leídas, borrarlas, y navegar directamente al contenido relacionado.
+### 4. Notification System
+A real-time notification center to keep users informed.
+- **Alerts:** Notifies about new reviews of relevant profiles or important updates.
+- **Management:** Allows marking notifications as read, deleting them, and navigating directly to related content.
 
-### 5. Tema Oscuro / Claro
-La interfaz cuenta con un selector de tema para que los usuarios puedan elegir entre un modo claro y uno oscuro, adaptándose a sus preferencias y mejorando la accesibilidad visual.
+### 5. Dark / Light Theme
+The interface has a theme selector so users can choose between a light mode and a dark mode, adapting to their preferences and improving visual accessibility.
+
+---
+
+## Database Integration
+
+This application is configured to use Supabase as its PostgreSQL database provider.
+
+### Environment Variables
+
+To run the application, you need to configure the following environment variables:
+
+```bash
+# For local development (Vite)
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_GEMINI_API_KEY=your_gemini_api_key
+```
+
+When deploying to Vercel, add these variables in your project settings under Environment Variables using the `NEXT_PUBLIC_` prefix:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anon key
+- `NEXT_PUBLIC_GEMINI_API_KEY`: Your Google AI Studio API key
+
+### Database Schema
+
+The application requires the following tables:
+- `person_profiles`: Stores profile information and reputation scores
+- `reviews`: Stores individual reviews with scores and details
+- `users`: Stores user account information
+
+---
+
+## Development Setup
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Create a `.env.local` file with your environment variables:
+   ```bash
+   cp .env.example .env.local
+   # Then edit .env.local with your actual values
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Visit http://localhost:3000 to see the application.
+
+---
+
+## Building for Production
+
+To build the application for production:
+
+```bash
+npm run build
+npm start
+```
+
+---
+
+## Deployment
+
+The application is set up for deployment to Vercel. When deploying:
+
+1. Make sure your environment variables are configured in your Vercel project
+2. The application will automatically connect to your Supabase database
+3. Verify that your database tables are properly created and configured
+
+---
+
+## Contributing
+
+Feel free to submit issues or pull requests. For major changes, please open an issue first to discuss what you would like to change.

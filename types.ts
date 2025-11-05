@@ -36,12 +36,16 @@ export interface InstaStoriesData {
 
 export interface PersonProfile {
   id: string;
+  identifier: string; // The main identifier (Instagram username, name, etc.)
   identifiers: string[]; // e.g., ['John Doe', '@johndoe', '123456789']
   country: string;
   totalScore: number;
+  reviewCount: number; // Number of reviews
   reputation: ReputationLevel;
   reviews: Review[];
   instagramProfile?: InstaStoriesData;
+  lastUpdated?: string;
+  fullName?: string;
 }
 
 export interface UserProfile {
