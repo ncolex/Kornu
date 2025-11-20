@@ -36,9 +36,9 @@ next-env.d.ts
 
 # other
 POSTGRES_URL
-"Supabase \342\200\223 Vercel.html"
 components/InstagramProfileCard.tsx.bak
 # User-specified ignores
-"Supabase — Vercel.html"
+Supabase — Vercel.html
+Supabase * Vercel.html
 dist/
 supabase/.temp/
